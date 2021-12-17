@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+    
+    queue:
+        image: rabbitmq:3.9.11-alpine
+    
+    log-parser:
+        build: ./log-parser
+        volumes:
+            - ./log-parser:/app/  
