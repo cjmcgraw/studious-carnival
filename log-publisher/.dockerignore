@@ -1,0 +1,5 @@
+.git
+.virtualenv
+.venv
+__pycache__/
+**.cpython*

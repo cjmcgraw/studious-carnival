@@ -1,0 +1,55 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+message Event {
+    google.protobuf.Timestamp created = 1;
+    google.protobuf.Timestamp eventTimestamp = 2;
+    string client = 3;
+    oneof metadata {
+        CombatMetadata combat = 4;
+        HealingMetadata healing = 5;
+        SupportMetadata support = 6;
+    }    
+}
+
+message CombatMetadata {
+    string source = 1;
+    string target = 2;
+    string action = 3;
+
+    enum Kind {
+        physical = 0;
+        magic = 1;
+        environmental = 2;
+        unknown = 3;
+    }
+    
+    Kind kind = 4;
+    int64 amount = 5;
+    bool success = 6;
+    repeated string modifiers = 7;
+}
+
+message HealingMetadata {
+    string source = 1;
+    string target = 2;
+    string action = 3;
+    
+
+    enum Kind {
+        direct = 0;
+        over_time = 1;
+    }
+
+    Kind kind = 4;
+    int64 amount = 5;
+    bool success = 6;
+    bool partial = 7;
+    repeated string modifiers = 8;
+}
+
+message SupportMetadata {
+    string source = 1;
+    string target = 2;
+    string action = 3;
+}

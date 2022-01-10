@@ -2,10 +2,60 @@ version: "3.9"
 
 services:
     
-    queue:
-        image: rabbitmq:3.9.11-alpine
+    rabbitmq:
+        build: ./rabbitmq
+        volumes:
+            - ./rabbitmq:/app
+        ports:
+            - "15691:15691"
+            - "15692:15692"
+            - "25672:25672"
+            - "4369:4369"
+            - "5671:5671"
+            - "5672:5672"
+
+    grafana:
+        build: ./grafana
+        environment:
+            INFLUXDB_URL: "http://influxdb:8086"
+            INFLUXDB_TOKEN: ${INFLUXDB_ADMIN_TOKEN}
+            INFLUXDB_ORG: ${INFLUXDB_ORG}
+        ports:
+            - 80:3000
+        depends_on:
+            - influxdb
+
+    influxdb:
+        build: ./influxdb
+        environment:
+            DOCKER_INFLUXDB_INIT_USERNAME: "local_admin"
+            DOCKER_INFLUXDB_INIT_PASSWORD: "local_admin"
+            DOCKER_INFLUXDB_INIT_ORG: ${INFLUXDB_ORG}
+            DOCKER_INFLUXDB_INIT_BUCKET: "reporting"
+            DOCKER_INFLUXDB_INIT_MODE: "setup"
+            DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUXDB_ADMIN_TOKEN}
+        ports:
+            - "8086:8086"
     
     log-parser:
-        build: ./log-parser
+        build: ./log-parser/
+        env_file: ./.env
+        environment:
+            RABBITMQ_HOSTS_CSV: rabbitmq
         volumes:
             - ./log-parser:/app/  
+            - $EQ_LOG:/log
+        profiles: ["runnable-only"]
+        entrypoint: [ "python", "/app/src/log_parser/__main__.py" ]
+        depends_on:
+            - rabbitmq
+
+    reporter:
+        build: ./reporter
+        environment:
+            INFLUXDB_URL: "http://influxdb:8086"
+            INFLUXDB_ORG: ${INFLUXDB_ORG}
+            INFLUXDB_TOKEN: ${INFLUXDB_ADMIN_TOKEN}
+            RABBITMQ_HOST: rabbitmq
+        volumes:
+            - ./reporter:/app/

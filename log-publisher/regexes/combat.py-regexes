@@ -1,0 +1,12 @@
+(?P<source>You) (?P<attack>[a-zA-Z]+) (?P<target>[a-zA-Z ]+) for (?P<amount>[0-9]+) points of damage. \((?P<modifier>[a-zA-Z ]+)\)
+(?P<source>You) (?P<attack>[a-zA-Z]+) (?P<target>[a-zA-Z ]+) for (?P<amount>[0-9]+) points of damage. 
+(?P<source>You) try to (?P<attack>[a-zA-Z]+), but miss!
+(?P<source>[a-zA-Z ]+) tries to (?P<attack>[a-zA-Z]+) (?P<target>YOU), but (?P<outcome>[a-zA-Z ]+)! \((?P<modifier>[a-zA-Z ]+)\)
+(?P<source>[a-zA-Z ]+) tries to (?P<attack>[a-zA-Z]+) (?P<target>YOU), but (?P<outcome>[a-zA-Z ]+)!
+(?P<source>[a-zA-Z ]+) (?P<attack>[a-zA-Z]+) (?P<target>YOU) for (?P<amount>[0-9]+) points of damage \((?P<modifier>[a-zA-Z ]+)\)
+(?P<source>[a-zA-Z ]+) (?P<attack>[a-zA-Z]+) (?P<target>YOU) for (?P<amount>[0-9]+) points of damage
+(?P<source>[a-zA-Z ]+) hit (?P<target>[a-zA-Z ]+) for (?P<amount>[0-9]+) points of magic damage by (?P<attack>[a-zA-Z ]+). \((?P<modifier>[a-zA-Z])\)
+(?P<source>[a-zA-Z ]+) hit (?P<target>[a-zA-Z ]+) for (?P<amount>[0-9]+) points of magic damage by (?P<attack>[a-zA-Z ]+).
+(?P<target>[a-zA-Z ]+) is [a-zA-Z ]+ by (?<source>YOU)R (?P<attack>[a-zA-Z ]+) for (?P<amount>[0-9]+) points of non-melee damage.
+(?P<target>YOU) are [a-zA-Z ]+ by (?P<source>[a-zA-Z ]+)'s (?P<attack>[a-zA-Z ]+) for (?P<amount>[0-9]+) points of non-melee damage!
+(?P<target>YOU)R (?P<outcome>magical skin absorbs the damage) of (?P<source>[a-zA-Z ]+)'s (?P<attack>[a-zA-Z ]+).
