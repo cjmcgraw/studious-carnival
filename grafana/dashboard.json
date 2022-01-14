@@ -21,8 +21,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
-  "iteration": 1641689341108,
+  "id": 2,
+  "iteration": 1641950543539,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -69,7 +69,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -79,7 +80,32 @@
           },
           "unit": "short"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "sszalissar"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 11,
@@ -155,7 +181,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -165,7 +192,32 @@
           },
           "unit": "percentunit"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "a thrallmaster"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 11,
@@ -190,7 +242,7 @@
             "type": "influxdb",
             "uid": "PF3A0F3054C0DA367"
           },
-          "query": "from(bucket: \"combat\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> group(columns: [\"source\", \"successful\"])\r\n  |> aggregateWindow(every: 1s, fn: count, createEmpty: true)\r\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"successful\"], valueColumn: \"_value\")\r\n  |> filter(fn: (r) => r.True > 0)\r\n  |> fill(column: \"False\", value: 0)\r\n  |> map(fn: (r) => ({\r\n      r with \r\n      _value:float(v: r.True) / (float(v: r.True) + float(v: r.False))\r\n    }))\r\n  |> keep(columns: [\"_time\", \"_value\", \"source\"])",
+          "query": "from(bucket: \"combat\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> group(columns: [\"source\", \"success\"])\r\n  |> aggregateWindow(every: 1s, fn: count, createEmpty: false)\r\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"success\"], valueColumn: \"_value\")\r\n  |> filter(fn: (r) => r.True > 0)\r\n  |> fill(column: \"False\", value: 0)\r\n  |> map(fn: (r) => ({\r\n      r with \r\n      _value:float(v: r.True) / (float(v: r.True) + float(v: r.False))\r\n    }))\r\n  |> keep(columns: [\"_time\", \"_value\", \"source\"])",
           "refId": "A"
         }
       ],
@@ -255,8 +307,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "test000",
+  "title": "Overview",
   "uid": "Fwhwt60nz",
-  "version": 5,
+  "version": 2,
   "weekStart": ""
 }

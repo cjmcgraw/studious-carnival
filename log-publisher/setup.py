@@ -1,7 +1,7 @@
 import setuptools
 
 setuptools.setup(
-    name="log-parser",
+    name="log-publisher",
     version="0.0.1",
     author="Carl McGraw",
     author_email="c@rlmcgraw.io",

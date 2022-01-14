@@ -1,0 +1,2 @@
+(?P<source>[a-zA-Z ]+) tells the group, '(?P<message>.*)'
+(?P<source>[a-zA-Z]+) tell your party, '(?P<message>.*)'

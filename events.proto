@@ -1,15 +1,21 @@
 syntax = "proto3";
-mport "google/protobuf/timestamp.proto";
+import "google/protobuf/timestamp.proto";
 
 message Event {
     google.protobuf.Timestamp created = 1;
     google.protobuf.Timestamp eventTimestamp = 2;
     string client = 3;
     oneof metadata {
-        CombatMetadata combat = 1;
-        HealingMetadata healing = 2;
-        SupportMetadata support = 3;
+        CombatMetadata combat = 4;
+        HealingMetadata healing = 5;
+        SupportMetadata support = 6;
+        GroupMetadata group = 7;
     }    
+}
+
+message GroupMetadata {
+    string source = 1;
+    string msg = 2;
 }
 
 message CombatMetadata {
@@ -18,10 +24,10 @@ message CombatMetadata {
     string action = 3;
 
     enum Kind {
-        physical = 0;
-        magic = 1;
-        environmental = 2;
-        unknown = 3;
+        unknown = 0;
+        physical = 1;
+        magic = 2;
+        environmental = 3;
     }
     
     Kind kind = 4;
@@ -37,15 +43,16 @@ message HealingMetadata {
     
 
     enum Kind {
-        direct = 0;
-        over_time = 1;
+        unknown = 0;
+        direct = 1;
+        over_time = 2;
     }
 
     Kind kind = 4;
-    int64 amount = 4;
+    int64 amount = 5;
     bool succes = 6;
     bool partial = 7;
-    repeated string modifiers = 7;
+    repeated string modifiers = 8;
 }
 
 message SupportMetadata {

@@ -3,7 +3,9 @@ version: "3.9"
 services:
     
     rabbitmq:
-        build: ./rabbitmq
+        build: 
+            context: .
+            dockerfile: ./rabbitmq/Dockerfile
         volumes:
             - ./rabbitmq:/app
         ports:
@@ -28,31 +30,42 @@ services:
     influxdb:
         build: ./influxdb
         environment:
-            DOCKER_INFLUXDB_INIT_USERNAME: "local_admin"
-            DOCKER_INFLUXDB_INIT_PASSWORD: "local_admin"
+            DOCKER_INFLUXDB_INIT_USERNAME: "admin"
+            DOCKER_INFLUXDB_INIT_PASSWORD: "admin"
             DOCKER_INFLUXDB_INIT_ORG: ${INFLUXDB_ORG}
             DOCKER_INFLUXDB_INIT_BUCKET: "reporting"
             DOCKER_INFLUXDB_INIT_MODE: "setup"
             DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUXDB_ADMIN_TOKEN}
         ports:
             - "8086:8086"
+
+    redis:
+        image: redis:6-alpine
     
-    log-parser:
-        build: ./log-parser/
+    log-publisher:
+        build:
+            context: .
+            dockerfile: ./log-publisher/Dockerfile
         env_file: ./.env
         environment:
+            PYTHONBREAKPOINT: remote_pdb.set_trace
+            REMOTE_PDB_PORT: 1234
             RABBITMQ_HOSTS_CSV: rabbitmq
         volumes:
-            - ./log-parser:/app/  
+            - ./log-publisher:/app/  
             - $EQ_LOG:/log
         profiles: ["runnable-only"]
-        entrypoint: [ "python", "/app/src/log_parser/__main__.py" ]
+        entrypoint: [ "python", "/app/src/log_publisher/__main__.py" ]
         depends_on:
             - rabbitmq
 
     reporter:
-        build: ./reporter
+        build:
+            context: .
+            dockerfile: ./reporter/Dockerfile
         environment:
+            PYTHON_LOG_LEVEL: "DEBUG"
+            REDIS_HOST: "redis"
             INFLUXDB_URL: "http://influxdb:8086"
             INFLUXDB_ORG: ${INFLUXDB_ORG}
             INFLUXDB_TOKEN: ${INFLUXDB_ADMIN_TOKEN}

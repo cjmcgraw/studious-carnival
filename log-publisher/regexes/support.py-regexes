@@ -1,4 +1,0 @@
-(?P<source>[a-zA-Z ]+) (?P<kind>heal)ed (?P<target>you) for (?P<amount>[0-9]+) \([0-9]+\) hit points by (?P<effect>[a-zA-Z ]+). \((?P<outcome>[a-zA-Z ]+)\)
-(?P<source>[a-zA-Z ]+) (?P<kind>heal)ed (?P<target>you) for (?P<amount>[0-9]+) \([0-9]+\) hit points by (?P<effect>[a-zA-Z ]+).
-(?P<source>[a-zA-Z ]+) (?P<kind>heal)ed (?P<target>you) over time for (?P<amount>[0-9]+) \([0-9]+\) hit points by (?P<effect>[a-zA-Z ]+).
-(?P<source>You) (?P<kind>heal)ed (?P<target>[a-zA-Z ]+) for (?P<amount>[0-9]+) hit points.

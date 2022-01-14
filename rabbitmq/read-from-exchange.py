@@ -2,8 +2,9 @@
 from uuid import uuid4 as uuid
 import argparse
 
-import ujson
 import pika
+
+from protos import events
 
 if __name__ == '__main__':
     p = argparse.ArgumentParser()
@@ -21,18 +22,8 @@ if __name__ == '__main__':
     channel.queue_bind(exchange=args.exchange, queue=queue.method.queue)
 
     def print_message(ch, method, properties, body):
-        output = ujson.loads(body)
-        try:
-            if args.pretty_print:
-                s = ujson.dumps(output, indent=4)
-                print(s)
-                print('----------------------')
-            else:
-                print(ujson.dumps(output))
-        except Exception as err:
-            print(f"failed to json load ${body}")
-            print(err)
-            print('----------------------')
+        event: events.Event = events.Event().FromString(body)
+        print(event)
 
     channel.basic_consume(queue=queue_name, auto_ack=True, on_message_callback=print_message)
     channel.start_consuming()
